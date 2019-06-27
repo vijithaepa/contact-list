@@ -14,7 +14,7 @@ class ListContacts extends Component {
     }
 
     updateSearchQuery = (value) => {
-        value.reverse()
+        // value.reverse()
         this.setState(() => ({searchQuery: value.trim()}))
     }
 
