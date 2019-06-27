@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { Link } from 'react-router-dom'
 
 class ListContacts extends Component {
 
@@ -17,8 +18,8 @@ class ListContacts extends Component {
         this.setState(() => ({searchQuery: value.trim()}))
     }
 
-    clearQuery =() => {
-        this.setState(()=>(
+    clearQuery = () => {
+        this.setState(() => (
             {searchQuery: ''}
         ))
     }
@@ -34,18 +35,21 @@ class ListContacts extends Component {
 
         return (
             <div className='list-contacts'>
-                {/*{JSON.stringify(this.state)}*/}
                 <div className='list-contacts-top'>
                     <input
                         type='text' className='search-contacts' placeholder='Search Contacts'
                         value={searchQuery}
                         onChange={(event) => this.updateSearchQuery(event.target.value)}
                     />
+                    <Link to="/create"
+                          className="add-contact">
+                        Add Contact
+                    </Link>
                 </div>
                 {showContacts.length !== contacts.length && (
                     <div className='showing-contacts'>
                         <span>Now showing {showContacts.length} of {contacts.length}</span>
-                        <button onClick={()=> this.clearQuery()}>Show all</button>
+                        <button onClick={() => this.clearQuery()}>Show all</button>
                     </div>
                 )}
                 <ol className={"contact-list"}>

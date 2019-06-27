@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ListContacts from './ListContacts'
-import UserManagementContainer from "./exercise/statemanagement/ex06/UserManagementContainer";
+import * as ContactsAPI from './utils/ContactsAPI'
+import AddContact from "./AddContact";
+import { Route } from 'react-router-dom'
 
 class App extends Component {
 
@@ -33,15 +35,37 @@ class App extends Component {
         }))
     }
 
+    createContact = (contact) => {
+        ContactsAPI.create(contact)
+            .then((contact) => {
+                this.setState((curState) => (
+                    {contacts: [...curState.contacts, contact]}
+                    // {contacts: curState.contacts.concat([contact])}
+                ))
+            })
+    }
+
     render() {
         return (
             <div>
-                <ListContacts
-                    contacts={this.state.contacts}
-                    onDeleteContact = {this.removeContact}
+                <Route exact path="/" render={() => (
+                    <ListContacts
+                        contacts={this.state.contacts}
+                        onDeleteContact={this.removeContact}
+                    />
+                )}
                 />
 
-                <UserManagementContainer />
+                <Route path="/create" render={({history}) => (
+                    <AddContact
+                        onCreateContact={(contact) => {
+                            console.log("Con: ", contact)
+                            this.createContact(contact)
+                            history.push("/")
+                        }}/>
+                )}
+                />
+
             </div>
         );
     }
